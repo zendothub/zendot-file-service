@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.3.1</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>zendot.storage</groupId>
+	<artifactId>file-service</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>file-service</name>
+	<description>Service for storing file </description>
+	<url/>
+	<licenses>
+		<license/>
+	</licenses>
+	<developers>
+		<developer/>
+	</developers>
+	<scm>
+		<connection/>
+		<developerConnection/>
+		<tag/>
+		<url/>
+	</scm>
+	<properties>
+		<java.version>17</java.version>
+		<kotlin.version>1.9.24</kotlin.version>
+		<maven.compiler.source>17</maven.compiler.source>
+		<maven.compiler.target>17</maven.compiler.target>
+	</properties>
+	<dependencies>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.fasterxml.jackson.module</groupId>
+			<artifactId>jackson-module-kotlin</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-reflect</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-stdlib</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jetbrains.kotlin</groupId>
+			<artifactId>kotlin-test-junit5</artifactId>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-security -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+			<version>3.2.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-rest</artifactId>
+			<version>2.3.0.RELEASE</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-mongodb</artifactId>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.springdoc/springdoc-openapi-starter-webmvc-ui -->
+		<dependency>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-s3 -->
+		<dependency>
+			<artifactId>aws-java-sdk-s3</artifactId>
+			<groupId>com.amazonaws</groupId>
+			<version>1.12.699</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.bytedeco</groupId>
+			<artifactId>javacv-platform</artifactId>
+			<version>1.5.5</version>
+		</dependency>
+
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.11.0</version>
+		</dependency>
+
+	</dependencies>
+
+<build>
+	<sourceDirectory>${project.basedir}/src/main/kotlin</sourceDirectory>
+	<testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
+	<plugins>
+	<plugin>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-maven-plugin</artifactId>
+	</plugin>
+	<plugin>
+		<groupId>org.jetbrains.kotlin</groupId>
+		<artifactId>kotlin-maven-plugin</artifactId>
+		<configuration>
+			<args>
+				<arg>-Xjsr305=strict</arg>
+			</args>
+			<compilerPlugins>
+				<plugin>spring</plugin>
+			</compilerPlugins>
+		</configuration>
+		<dependencies>
+			<dependency>
+				<groupId>org.jetbrains.kotlin</groupId>
+				<artifactId>kotlin-maven-allopen</artifactId>
+				<version>${kotlin.version}</version>
+			</dependency>
+		</dependencies>
+	</plugin>
+	<plugin>
+		<artifactId>maven-compiler-plugin</artifactId>
+		<executions>
+			<!-- Replacing default-compile as it is treated specially by maven -->
+			<execution>
+				<id>default-compile</id>
+				<phase>none</phase>
+			</execution>
+			<!-- Replacing default-testCompile as it is treated specially by maven -->
+			<execution>
+				<id>default-testCompile</id>
+				<phase>none</phase>
+			</execution>
+			<execution>
+				<goals>
+					<goal>compile</goal>
+				</goals>
+				<id>java-compile</id>
+				<phase>compile</phase>
+			</execution>
+			<execution>
+				<goals>
+					<goal>testCompile</goal>
+				</goals>
+				<id>java-test-compile</id>
+				<phase>test-compile</phase>
+			</execution>
+		</executions>
+		<groupId>org.apache.maven.plugins</groupId>
+		<version>3.5.1</version>
+	</plugin>
+	</plugins>
+</build>
+</project>
