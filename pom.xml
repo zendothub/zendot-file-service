@@ -166,5 +166,6 @@
 		<version>3.5.1</version>
 	</plugin>
 	</plugins>
+	<finalName>filestorage</finalName>
 </build>
 </project>

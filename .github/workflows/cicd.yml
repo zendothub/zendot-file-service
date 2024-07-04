@@ -25,6 +25,13 @@ jobs:
       - name: Build with Maven
         run: mvn package -Dmaven.test.skip
 
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: "ap-south-1"
+
 
       - name: Deploy to EC2
         uses: appleboy/scp-action@v0.1.4
@@ -43,4 +50,4 @@ jobs:
             key: ${{ secrets.EC2_KEY }}
             script: |
               pkill -f 'java -jar'
-              nohup java -jar /home/ec2-user/your-app.jar > /dev/null 2>&1 &
+              nohup java -jar /home/ec2-user/filestorage.jar > /dev/null 2>&1 &

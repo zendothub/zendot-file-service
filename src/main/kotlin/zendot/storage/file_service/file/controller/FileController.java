@@ -5,10 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 
@@ -81,4 +78,10 @@ public class FileController {
                 HttpStatus.OK);
         return result;
     }
+
+    @GetMapping("/status")
+    public  ResponseEntity<String> getStatus(){
+        return new  ResponseEntity<>("server is up",HttpStatus.OK);
+    }
+
 }
