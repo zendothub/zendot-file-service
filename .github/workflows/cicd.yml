@@ -50,15 +50,21 @@ jobs:
             key: ${{ secrets.EC2_KEY }}
             script: |
                 echo "Stopping existing Java process if any..."
-                PID=$(pgrep -f 'java -jar') && kill -TERM $PID || true
-                sleep 5  # Allow some time for the process to terminate
+                PID=$(ps -ef | grep 'java -jar' | grep -v grep | awk '{print $2}')
+                if [ -n "$PID" ]; then
+                  echo "Found Java process with PID: $PID"
+                  kill -TERM $PID
+                  sleep 2  # Allow some time for the process to terminate
+                else
+                  echo "No existing Java process found."
+                fi
 
                 echo "Starting new Java process..."
                 nohup java -jar /home/ec2-user/target/filestorage.jar > /home/ec2-user/app.log 2>&1 &
                 sleep 5  # Allow some time for the process to start
 
                 echo "Checking if the process started successfully..."
-                if pgrep -f 'java -jar'; then
+                if ps -ef | grep -q '[j]ava -jar'; then
                   echo "Java process started successfully."
                 else
                   echo "Failed to start Java process."
