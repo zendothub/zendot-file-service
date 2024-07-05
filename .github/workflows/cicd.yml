@@ -49,5 +49,18 @@ jobs:
             username: ${{ secrets.EC2_USER }}
             key: ${{ secrets.EC2_KEY }}
             script: |
-              PID=$(pgrep -f 'java -jar') && kill -TERM $PID || true
-              nohup java -jar /home/ec2-user/target/filestorage.jar > /home/ec2-user/app.log 2>&1 &
+                echo "Stopping existing Java process if any..."
+                PID=$(pgrep -f 'java -jar') && kill -TERM $PID || true
+                sleep 5  # Allow some time for the process to terminate
+
+                echo "Starting new Java process..."
+                nohup java -jar /home/ec2-user/target/filestorage.jar > /home/ec2-user/app.log 2>&1 &
+                sleep 5  # Allow some time for the process to start
+
+                echo "Checking if the process started successfully..."
+                if pgrep -f 'java -jar'; then
+                  echo "Java process started successfully."
+                else
+                  echo "Failed to start Java process."
+                  exit 1
+                fi
