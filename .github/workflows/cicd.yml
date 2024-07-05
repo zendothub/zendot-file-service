@@ -50,4 +50,4 @@ jobs:
             key: ${{ secrets.EC2_KEY }}
             script: |
               PID=$(pgrep -f 'java -jar') && kill -TERM $PID || true
-              nohup java -jar /home/ec2-user/target/filestorage.jar > app.log 2>&1 &
+              nohup java -jar /home/ec2-user/target/filestorage.jar > /home/ec2-user/app.log 2>&1 &
