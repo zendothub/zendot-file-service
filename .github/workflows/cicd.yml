@@ -50,4 +50,4 @@ jobs:
             key: ${{ secrets.EC2_KEY }}
             script: |
               pkill -f 'java -jar'
-              nohup java -jar /home/ec2-user/filestorage.jar > /dev/null 2>&1 &
+              nohup java -jar /home/ec2-user/target/filestorage.jar > /dev/null 2>&1 &
