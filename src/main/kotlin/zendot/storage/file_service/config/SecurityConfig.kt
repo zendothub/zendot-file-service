@@ -18,7 +18,6 @@ import zendot.storage.file_service.config.repository.DomainBucketRepository
 @EnableWebSecurity
 class SecurityConfig(
     private val apiKeyRepository: DomainBucketRepository,
-    @Value("\${dashboard.password}") val password: String,
     private val secretValue: String?
 ) {
 
@@ -56,7 +55,7 @@ class SecurityConfig(
         authenticationManagerBuilder
             .inMemoryAuthentication()
             .withUser("admin")
-            .password(password)
+            .password(passwordEncoder().encode("admin"))
         return authenticationManagerBuilder.build()
     }
 
