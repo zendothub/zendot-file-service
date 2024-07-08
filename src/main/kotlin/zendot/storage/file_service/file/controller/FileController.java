@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -16,7 +17,7 @@ import zendot.storage.file_service.file.service.FileService;
 import zendot.storage.file_service.file.DomainBucketModel;
 import java.io.IOException;
 
-@RestController
+@Controller
 @RequestMapping("/api/files")
 public class FileController {
 
@@ -79,9 +80,5 @@ public class FileController {
         return result;
     }
 
-    @GetMapping("/status")
-    public  ResponseEntity<String> getStatus(){
-        return new  ResponseEntity<>("server is up",HttpStatus.OK);
-    }
 
 }
