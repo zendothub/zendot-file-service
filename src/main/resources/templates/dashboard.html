@@ -125,8 +125,10 @@
                                     <p class="card-text" id="bucket-${domainBucket.id}">Bucket: ${domainBucket.bucket}</p>
                                     <p class="card-text" id="secret-${domainBucket.id}">Secret: ${domainBucket.secret}</p>
                                     <p class="card-text" id="cdnUrl-${domainBucket.id}">CDN URL: ${domainBucket.cdnUrl}</p>
-                                    <button class="btn" onclick="showForm('${domainBucket.id}', '${domainBucket.domain}', '${domainBucket.bucket}', '${domainBucket.secret}', '${domainBucket.cdnUrl}')">Edit</button>
-                                    <button class="btn" onclick="deleteDomainBucket('${domainBucket.id}')">Delete</button>
+                                </div>
+                                <div class="card-footer text-muted">
+                                     <button class="btn" onclick="showForm('${domainBucket.id}', '${domainBucket.domain}', '${domainBucket.bucket}', '${domainBucket.secret}', '${domainBucket.cdnUrl}')">Edit</button>
+                                      <button class="btn" onclick="deleteDomainBucket('${domainBucket.id}')">Delete</button>
                                 </div>
                             </div>
                         </div>

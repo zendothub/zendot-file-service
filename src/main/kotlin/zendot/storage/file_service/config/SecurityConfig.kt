@@ -1,5 +1,6 @@
 package zendot.storage.file_service.config
 
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.http.HttpMethod
@@ -17,6 +18,7 @@ import zendot.storage.file_service.config.repository.DomainBucketRepository
 @EnableWebSecurity
 class SecurityConfig(
     private val apiKeyRepository: DomainBucketRepository,
+    @Value("\${dashboard.password}") val password: String,
     private val secretValue: String?
 ) {
 
@@ -54,7 +56,7 @@ class SecurityConfig(
         authenticationManagerBuilder
             .inMemoryAuthentication()
             .withUser("admin")
-            .password(passwordEncoder().encode("admin"))
+            .password(password)
         return authenticationManagerBuilder.build()
     }
 
