@@ -20,9 +20,8 @@ class ApiKeyAuthenticationFilter(
         filterChain: FilterChain
     ) {
         val secret = request.getHeader("Authorization")  // Use standard header
-        val domain = request.serverName
-        val domainValueModel=domainBucketRepository.findByDomain(domain)
-        if (domainValueModel != null && domainValueModel.secret == secret) {
+        val domainValueModel=domainBucketRepository.findBySecret(secret)
+        if (domainValueModel != null) {
             val authentication = UsernamePasswordAuthenticationToken(domainValueModel,null, emptyList())
             val context: SecurityContext = SecurityContextHolder.createEmptyContext()
             context.authentication = authentication
