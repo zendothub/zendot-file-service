@@ -10,4 +10,5 @@ import zendot.storage.file_service.file.DomainBucketModel
 @RepositoryRestResource( collectionResourceRel = "domainValue", path = "domainValue")
 interface DomainBucketRepository:MongoRepository<DomainBucketModel,String> {
     fun findByDomain(key:String):DomainBucketModel?
+    fun findBySecret(key:String):DomainBucketModel?
 }
