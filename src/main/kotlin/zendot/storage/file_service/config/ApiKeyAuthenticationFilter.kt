@@ -29,7 +29,6 @@ class ApiKeyAuthenticationFilter(
                 SecurityContextHolder.setContext(context)
             }
         }
-
         filterChain.doFilter(request, response)
     }
 }
