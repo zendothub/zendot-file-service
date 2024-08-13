@@ -152,6 +152,6 @@ public class FileServiceImpl implements FileService {
     public VideoAndThumbnailResponse videoAndthumbnailUpload(MultipartFile multipartFile, S3Path videoS3Path, S3Path thumbnailS3Path, String bucket) throws Exception {
         UploadedFile thumbnailResponse = thumbnailCreation(multipartFile, thumbnailS3Path, bucket);
         UploadedFile videoResponse = upload(multipartFile, videoS3Path, bucket);
-        return new VideoAndThumbnailResponse(thumbnailResponse, videoResponse);
+        return new VideoAndThumbnailResponse(videoResponse, thumbnailResponse);
     }
 }
