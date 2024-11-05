@@ -108,7 +108,44 @@
         });
     });
 
-    function loadDomainBuckets() {
+<!--    function loadDomainBuckets() {-->
+<!--        $.ajax({-->
+<!--            url: '/api/domainValue',-->
+<!--            method: 'GET',-->
+<!--            success: function(data) {-->
+<!--                var domainBuckets = data._embedded.domainValue;-->
+<!--                var container = $('#domainBuckets');-->
+<!--                container.empty();-->
+<!--                domainBuckets.forEach(function(domainBucket) {-->
+<!--                    var cardHtml = `-->
+<!--                        <div class="col-md-4">-->
+<!--                            <div class="card mb-3" id="card-${domainBucket.id}">-->
+<!--                                <div class="card-body">-->
+<!--                                    <h5 class="card-title" id="domain-${domainBucket.id}">${domainBucket.domain}</h5>-->
+<!--                                    <p class="card-text" id="bucket-${domainBucket.id}">Bucket: ${domainBucket.bucket}</p>-->
+<!--                                    <p class="card-text" id="secret-${domainBucket.id}">Secret: ${domainBucket.secret}</p>-->
+<!--                                    <p class="card-text" id="cdnUrl-${domainBucket.id}">CDN URL: ${domainBucket.cdnUrl}</p>-->
+<!--                                </div>-->
+<!--                                <div class="card-footer text-muted">-->
+<!--                                     <button class="btn" onclick="showForm('${domainBucket.id}', '${domainBucket.domain}', '${domainBucket.bucket}', '${domainBucket.secret}', '${domainBucket.cdnUrl}')">Edit</button>-->
+<!--                                      <button class="btn" onclick="deleteDomainBucket('${domainBucket.id}')">Delete</button>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    `;-->
+<!--                    container.append(cardHtml);-->
+<!--                });-->
+<!--            },-->
+<!--            error: function(err) {-->
+<!--                console.error('Error fetching domain buckets:', err);-->
+<!--                alert('Failed to load domain buckets. Please try again later.');-->
+<!--            }-->
+<!--        });-->
+<!--    }-->
+
+<!---->
+
+  function loadDomainBuckets() {
         $.ajax({
             url: '/api/domainValue',
             method: 'GET',
@@ -117,18 +154,61 @@
                 var container = $('#domainBuckets');
                 container.empty();
                 domainBuckets.forEach(function(domainBucket) {
-                    var cardHtml = `
+                    var truncatedSecret = domainBucket.secret.slice(0, 5) + '...';
+<!--                    var cardHtml = `-->
+<!--                        <div class="col-md-4">-->
+<!--                            <div class="card mb-3" id="card-${domainBucket.id}">-->
+<!--                                <div class="card-body">-->
+<!--                                    <h5 class="card-title" id="domain-${domainBucket.id}">${domainBucket.domain}</h5>-->
+<!--                                    <p class="card-text" id="bucket-${domainBucket.id}">Bucket: ${domainBucket.bucket}</p>-->
+<!--                                    <p class="card-text " id="secret-${domainBucket.id}">-->
+<!--                                        Secret: <span>${truncatedSecret}</span>-->
+<!--                                        <button style ="margin-left:24px"class="btn btn-outline-secondary btn-sm " onclick="copySecret('${domainBucket.secret}')">Copy</button>-->
+<!--                                    </p>-->
+<!--                                    <p class="card-text" id="cdnUrl-${domainBucket.id}">CDN URL: ${domainBucket.cdnUrl}</p>-->
+<!--                                </div>-->
+<!--                                <div class="card-footer text-muted">-->
+<!--                                     <button class="btn" onclick="showForm('${domainBucket.id}', '${domainBucket.domain}', '${domainBucket.bucket}', '${domainBucket.secret}', '${domainBucket.cdnUrl}')">Edit</button>-->
+<!--                                      <button class="btn" onclick="deleteDomainBucket('${domainBucket.id}')">Delete</button>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
+<!--                    `;-->
+<!--                    container.append(cardHtml);-->
+<!--                });-->
+<!--            },-->
+<!--            error: function(err) {-->
+<!--                console.error('Error fetching domain buckets:', err);-->
+<!--                alert('Failed to load domain buckets. Please try again later.');-->
+<!--            }-->
+<!--        });-->
+<!--    }-->
+
+<!--    // New function to copy the secret to clipboard-->
+<!--    function copySecret(secret) {-->
+<!--        var tempInput = document.createElement("input");-->
+<!--        document.body.appendChild(tempInput);-->
+<!--        tempInput.value = secret;-->
+<!--        tempInput.select();-->
+<!--        document.execCommand("copy");-->
+<!--        document.body.removeChild(tempInput);-->
+<!--    }-->
+
+ var cardHtml = `
                         <div class="col-md-4">
                             <div class="card mb-3" id="card-${domainBucket.id}">
                                 <div class="card-body">
                                     <h5 class="card-title" id="domain-${domainBucket.id}">${domainBucket.domain}</h5>
                                     <p class="card-text" id="bucket-${domainBucket.id}">Bucket: ${domainBucket.bucket}</p>
-                                    <p class="card-text" id="secret-${domainBucket.id}">Secret: ${domainBucket.secret}</p>
+                                    <p class="card-text" id="secret-${domainBucket.id}">
+                                        Secret: <span>${truncatedSecret}</span>
+                                        <button style="margin-left:24px" class="btn btn-outline-secondary btn-sm" onclick="copySecret('${domainBucket.secret}', this)">Copy</button>
+                                    </p>
                                     <p class="card-text" id="cdnUrl-${domainBucket.id}">CDN URL: ${domainBucket.cdnUrl}</p>
                                 </div>
                                 <div class="card-footer text-muted">
                                      <button class="btn" onclick="showForm('${domainBucket.id}', '${domainBucket.domain}', '${domainBucket.bucket}', '${domainBucket.secret}', '${domainBucket.cdnUrl}')">Edit</button>
-                                      <button class="btn" onclick="deleteDomainBucket('${domainBucket.id}')">Delete</button>
+                                     <button class="btn" onclick="deleteDomainBucket('${domainBucket.id}')">Delete</button>
                                 </div>
                             </div>
                         </div>
@@ -143,6 +223,49 @@
         });
     }
 
+<!--    function copySecret(secret, button) {-->
+<!--        var tempInput = document.createElement("input");-->
+<!--        document.body.appendChild(tempInput);-->
+<!--        tempInput.value = secret;-->
+<!--        tempInput.select();-->
+<!--        document.execCommand("copy");-->
+<!--        document.body.removeChild(tempInput);-->
+
+<!--        button.style.backgroundColor = "grey";-->
+<!--        button.style.color = "white";-->
+<!--        button.innerText = "Copied!";-->
+<!--        button.disabled = true;-->
+<!--    }-->
+
+let previousCopyButton = null; // To store the reference to the last clicked button
+
+function copySecret(secret, button) {
+    // Reset the previous button if there is one
+    if (previousCopyButton) {
+        previousCopyButton.style.backgroundColor = ""; // Reset to default color
+        previousCopyButton.style.color = ""; // Reset to default text color
+        previousCopyButton.innerText = "Copy"; // Reset text
+        previousCopyButton.disabled = false; // Enable button
+    }
+
+    // Copy the secret to the clipboard
+    const tempInput = document.createElement("input");
+    document.body.appendChild(tempInput);
+    tempInput.value = secret;
+    tempInput.select();
+    document.execCommand("copy");
+    document.body.removeChild(tempInput);
+
+    // Update the current button to show it is "Copied"
+    button.style.backgroundColor = "grey";
+    button.style.color = "white";
+    button.innerText = "Copied!";
+    button.disabled = true;
+
+    // Store the current button as the previous one
+    previousCopyButton = button;
+}
+
     function showForm(id, domain, bucket, secret, cdnUrl) {
         $('#id').val(id || '');
         $('#domain').val(domain || '');
@@ -153,9 +276,9 @@
     }
 
     function generateSecret() {
-        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789ABCDEFYGHYYHYHHYHUJRFHYUIGHIJKLMNOPQRSTUVWXYZ';
         var secret = '';
-        for (var i = 0; i < 10; i++) {
+        for (var i = 0; i < 30; i++) {
             secret += characters.charAt(Math.floor(Math.random() * characters.length));
         }
         $('#secret').val(secret);

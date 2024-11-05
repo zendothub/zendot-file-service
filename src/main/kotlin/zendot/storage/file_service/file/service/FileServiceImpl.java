@@ -11,6 +11,7 @@ import org.bytedeco.javacv.Java2DFrameConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.multipart.MultipartFile;
 import zendot.storage.file_service.file.domain.S3Path;
 import zendot.storage.file_service.file.domain.UploadedFile;
@@ -44,8 +45,10 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public UploadedFile upload(InputStream inputStream, String path, String bucket) {
-        return upload(inputStream, path, new ObjectMetadata(), bucket);
+    public UploadedFile upload(InputStream inputStream, String path, String bucket,Long size) {
+        var metadata=new ObjectMetadata();
+        metadata.setContentLength(size);
+        return upload(inputStream, path, metadata, bucket);
     }
 
     @Override
@@ -55,18 +58,18 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public UploadedFile upload(MultipartFile multipartFile, S3Path path, String bucket) throws IOException {
+    public UploadedFile upload(MultipartFile multipartFile, S3Path path, String bucket,Long size) throws IOException {
         InputStream inputStream =
                 (multipartFile.getSize() > maxBannerSizeBytes) ? ImageCompressor.Companion.compress(
                         multipartFile.getInputStream()) : multipartFile.getInputStream();
-        return upload(inputStream, getFullPath(path, multipartFile.getOriginalFilename()), bucket);
+        return upload(inputStream, getFullPath(path, multipartFile.getOriginalFilename()), bucket,size);
     }
 
-    @Override
-    public UploadedFile upload(InputStream inputStream, S3Path path, String fileName, String bucket)
-            throws IOException {
-        return upload(inputStream, getFullPath(path, fileName), bucket);
-    }
+//    @Override
+//    public UploadedFile upload(InputStream inputStream, S3Path path, String fileName, String bucket)
+//            throws IOException {
+//        return upload(inputStream, getFullPath(path, fileName), bucket);
+//    }
 
     @Override
     public UploadedFile uploadWithExactName(InputStream in, S3Path s3Path, String fileName,
@@ -118,10 +121,11 @@ public class FileServiceImpl implements FileService {
      * below function is used to create thumbnail from video file and upload that thumbnail is S3
      **/
     @Override
-    public UploadedFile thumbnailCreation(MultipartFile multipartFile, S3Path s3Path, String bucket) throws Exception {
+    public UploadedFile thumbnailCreation(MultipartFile multipartFile, S3Path s3Path, String bucket,Long size) throws Exception {
         InputStream thumbnail = createThumbnail(multipartFile.getInputStream());
         String path = s3Path.getPath() + randomName();
-        return upload(thumbnail, path, bucket);
+//        Long temp=24L;
+        return upload(thumbnail, path, bucket,size);
     }
 
     public InputStream createThumbnail(InputStream videoStream) throws IOException {
@@ -149,9 +153,9 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public VideoAndThumbnailResponse videoAndthumbnailUpload(MultipartFile multipartFile, S3Path videoS3Path, S3Path thumbnailS3Path, String bucket) throws Exception {
-        UploadedFile thumbnailResponse = thumbnailCreation(multipartFile, thumbnailS3Path, bucket);
-        UploadedFile videoResponse = upload(multipartFile, videoS3Path, bucket);
+    public VideoAndThumbnailResponse videoAndthumbnailUpload(MultipartFile multipartFile, S3Path videoS3Path, S3Path thumbnailS3Path, String bucket,Long size) throws Exception {
+        UploadedFile thumbnailResponse = thumbnailCreation(multipartFile, thumbnailS3Path, bucket,size);
+        UploadedFile videoResponse = upload(multipartFile, videoS3Path, bucket,size);
         return new VideoAndThumbnailResponse(videoResponse, thumbnailResponse);
     }
 }

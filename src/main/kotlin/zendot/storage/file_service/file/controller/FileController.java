@@ -37,8 +37,10 @@ public class FileController {
         if (authentication != null && authentication.getPrincipal() instanceof DomainBucketModel domainBucketModel) {
             bucket=domainBucketModel.getBucket();
         }
+        Long size=file.getSize();
         return new ResponseEntity<>(
-                this.awsS3Service.upload(file, path,bucket),
+
+                this.awsS3Service.upload(file, path,bucket,size),
                 HttpStatus.OK);
     }
 
@@ -56,8 +58,9 @@ public class FileController {
         if (authentication != null && authentication.getPrincipal() instanceof DomainBucketModel domainValueModel) {
             bucket=domainValueModel.getBucket();
         }
+        Long size=file.getSize();
         return new ResponseEntity<>(
-                this.awsS3Service.thumbnailCreation(file, path,bucket),
+                this.awsS3Service.thumbnailCreation(file, path,bucket,size),
                 HttpStatus.OK);
     }
 
@@ -73,9 +76,10 @@ public class FileController {
         if (authentication != null && authentication.getPrincipal() instanceof DomainBucketModel domainValueModel) {
             bucket=domainValueModel.getBucket();
         }
+        Long size=file.getSize();
         ResponseEntity<VideoAndThumbnailResponse> result;
         result = new ResponseEntity(
-                this.awsS3Service.videoAndthumbnailUpload(file, videoPath, thumbnailPath,bucket),
+                this.awsS3Service.videoAndthumbnailUpload(file, videoPath, thumbnailPath,bucket,size),
                 HttpStatus.OK);
         return result;
     }
