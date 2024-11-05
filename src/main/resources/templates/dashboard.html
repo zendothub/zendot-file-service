@@ -155,7 +155,7 @@
     function generateSecret() {
         var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         var secret = '';
-        for (var i = 0; i < 10; i++) {
+        for (var i = 0; i < 25; i++) {
             secret += characters.charAt(Math.floor(Math.random() * characters.length));
         }
         $('#secret').val(secret);
